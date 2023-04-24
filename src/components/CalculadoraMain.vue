@@ -2,20 +2,23 @@
 	<div class="container">
 		<!-- <p class="display"> {{ this.display }} </p> -->
 		<div class="calculadora">
-			<input class="placeholder" type="number" v-model="valores">
+			<input class="placeholder" type="string" v-model="valores">
 			<div class="corpo">
 				<button type="submit" class="botaoCalc clear span-3" @click="apagar"> &larr; </button>
-				<button type="submit" class="botaoCalc" @click="apagarTudo" > C </button>
-				<button type="submit" class="botaoCalc" @click="clickExibir()" > {{ '+' }} </button>
-				<button v-for="number in ['7', '8', '9'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)"> {{ number }} </button>
-				<button type="button" class="botaoCalc" @click="clickExibir(value)" value="-" > - </button>
-				<button v-for="number in ['4', '5', '6'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)"> {{ number }}</button>
-				<button type="button" class="botaoCalc" @click="clickExibir(value)" value="*"> * </button>
-				<button v-for="number in ['1', '2', '3'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)"> {{ number }} </button>
-				<button type="button" class="botaoCalc" @click="NumclickExibir" value="/"> / </button>
-				<button type="button" class="botaoCalc span-3" @click="clickExibirNum" :key="0"> {{ 0 }} </button>
-				<button type="button" class="botaoCalc" @click="clickExibir" value=","> , </button>
-				<button type="button" class="botaoCalc" @click="clickExibir" value="="> = </button> 
+				<button type="submit" class="botaoCalc" @click="apagarTudo"> C </button>
+				<button type="submit" class="botaoCalc" @click="clickExibir('+')"> + </button>
+				<button v-for="number in ['7', '8', '9'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)">
+					{{ number }} </button>
+				<button type="button" class="botaoCalc" @click="clickExibir('-')"> - </button>
+				<button v-for="number in ['4', '5', '6'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)">
+					{{ number }}</button>
+				<button type="button" class="botaoCalc" @click="clickExibir('*')"> * </button>
+				<button v-for="number in ['1', '2', '3'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)">
+					{{ number }} </button>
+				<button type="button" class="botaoCalc" @click="clickExibir('/')"> / </button>
+				<button type="button" class="botaoCalc span-3" @click="clickExibir(0)"> {{ 0 }} </button>
+				<button type="button" class="botaoCalc" @click="clickExibir(',')"> , </button>
+				<button type="button" class="botaoCalc" @click="operacao()"> = </button>
 			</div>
 		</div>
 	</div>
@@ -30,10 +33,12 @@ export default ({
 		return {
 			valores: '',
 			// display: '',
+			valoresOuvir: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '/', '*']
 		}
 	},
 	mounted() {
-		this.ouvir()
+		this.ouvir(),
+		this.impedirSinalRep()
 	},
 	methods: {
 		apagarTudo() {
@@ -41,21 +46,29 @@ export default ({
 		},
 		apagar() {
 			this.valores = this.valores.toString().split('').slice(0, -1).join('')
-			console.log(this.valores)
 		},
 		// Ouvir teclado
 		ouvir() {
-			document.addEventListener("keydown", function () {
-			})
+			document.addEventListener("keydown", function (e) {
+				const arrayN = e.key.split('')
+				console.log(arrayN)
+				console.log(e.key.some('2'))
+				if (e.key.includes(this.valoresOuvir)){
+					console.log('oi') // fazer uma funcao pra ver se uma das teclas pessionadas fazem parte do valoresOuvir
+				}
+			})},
+		operacao() {
+			const array = this.valores.split('')
+			console.log(array)
 		},
-
-		// Funcoes de adicionar caracteres
-		clickExibirNum(number){
+		clickExibirNum(number) {
 			this.valores = this.valores + number
 		},
-		clickExibir(value){
+		clickExibir(value) {
 			this.valores = this.valores + value
-		}
+		},
+		// impedirSinalRep(){
+		// },
 	}
 })
 </script>
@@ -140,5 +153,4 @@ export default ({
 .placeholder {
 	-moz-appearance: textfield;
 	appearance: textfield;
-}
-</style>
+}</style>
