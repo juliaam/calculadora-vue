@@ -32,13 +32,12 @@ export default ({
 	data() {
 		return {
 			valores: '',
-			// display: '',
-			valoresOuvir: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '/', '*']
+			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '/', '*']
 		}
 	},
 	mounted() {
-		this.ouvir(),
-		this.impedirSinalRep()
+		this.ouvir()
+		
 	},
 	methods: {
 		apagarTudo() {
@@ -49,18 +48,17 @@ export default ({
 		},
 		// Ouvir teclado
 		ouvir() {
+			const arrayN = this.valoresOuvir
 			document.addEventListener("keydown", function (e) {
-				const arrayN = e.key.split('')
-				console.log(arrayN)
-				console.log(e.key.some('2'))
-				if (e.key.includes(this.valoresOuvir)){
-					console.log('oi') // fazer uma funcao pra ver se uma das teclas pessionadas fazem parte do valoresOuvir
+				const valor = arrayN.find(value => value == e.key)
+				if (valor) {
+					console.log(valor)	
 				}
-			})},
-		operacao() {
-			const array = this.valores.split('')
-			console.log(array)
+			})
 		},
+		// operacao() {
+		// 	// const array = this.valores.split('')
+		// },
 		clickExibirNum(number) {
 			this.valores = this.valores + number
 		},
@@ -101,16 +99,6 @@ export default ({
 .span-2 {
 	grid-column: span 2;
 }
-
-/* .display {
-	background: #33363a;
-	height: 40px;
-	width: 150px;
-	font-size: 40px;
-	text-align: right;
-	color: #a1a3a2;
-	font-family: 'Courier New', Courier, monospace;
-} */
 
 .placeholder {
 	width: 100%;
@@ -153,4 +141,5 @@ export default ({
 .placeholder {
 	-moz-appearance: textfield;
 	appearance: textfield;
-}</style>
+}
+</style>
