@@ -2,7 +2,7 @@
 	<div class="container">
 		<!-- <p class="display"> {{ this.display }} </p> -->
 		<div class="calculadora">
-			<input class="placeholder" type="string" v-model="valores">
+			<div class="placeholder"> {{ valores }}</div>
 			<div class="corpo">
 				<button type="submit" class="botaoCalc clear span-3" @click="apagar"> &larr; </button>
 				<button type="submit" class="botaoCalc" @click="apagarTudo"> C </button>
@@ -37,7 +37,7 @@ export default ({
 	},
 	mounted() {
 		this.ouvir()
-		
+
 	},
 	methods: {
 		apagarTudo() {
@@ -47,15 +47,20 @@ export default ({
 			this.valores = this.valores.toString().split('').slice(0, -1).join('')
 		},
 		// Ouvir teclado
+
 		ouvir() {
-			const arrayN = this.valoresOuvir
-			document.addEventListener("keydown", function (e) {
-				const valor = arrayN.find(value => value == e.key)
+			const novo = (e) => {
+				const valor = this.valoresOuvir.find(value => value == e.key)
 				if (valor) {
-					console.log(valor)	
+					this.valores = valor
+					console.log(this.valores)
 				}
+			}
+			document.addEventListener("keydown", function (e) {
+				novo(e)
 			})
 		},
+
 		// operacao() {
 		// 	// const array = this.valores.split('')
 		// },
@@ -88,7 +93,8 @@ export default ({
 }
 
 .calculadora {
-	max-width: 320px;
+	min-width: 300px;
+	max-width: 400px;
 	background: #eee;
 	position: absolute;
 	top: 50%;
