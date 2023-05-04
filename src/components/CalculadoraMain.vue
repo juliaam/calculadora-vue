@@ -6,18 +6,18 @@
 			<div class="corpo">
 				<button type="submit" class="botaoCalc clear span-3" @click="apagar"> &larr; </button>
 				<button type="submit" class="botaoCalc" @click="apagarTudo"> C </button>
-				<button type="submit" class="botaoCalc" @click="clickExibir('+')"> + </button>
+				<button type="submit" class="botaoCalc" @click="clickExibirOp('+')"> + </button>
 				<button v-for="number in ['7', '8', '9'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)">
 					{{ number }} </button>
-				<button type="button" class="botaoCalc" @click="clickExibir('-')"> - </button>
+				<button type="button" class="botaoCalc" @click="clickExibirOp('-')"> - </button>
 				<button v-for="number in ['4', '5', '6'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)">
 					{{ number }}</button>
-				<button type="button" class="botaoCalc" @click="clickExibir('*')"> * </button>
+				<button type="button" class="botaoCalc" @click="clickExibirOp('*')"> * </button>
 				<button v-for="number in ['1', '2', '3'] " :key="number" class="botaoCalc" @click="clickExibirNum(number)">
 					{{ number }} </button>
-				<button type="button" class="botaoCalc" @click="clickExibir('/')"> / </button>
-				<button type="button" class="botaoCalc span-3" @click="clickExibir(0)"> {{ 0 }} </button>
-				<button type="button" class="botaoCalc" @click="clickExibir(',')"> , </button>
+				<button type="button" class="botaoCalc" @click="clickExibirOp('/')"> / </button>
+				<button type="button" class="botaoCalc span-3" @click="clickExibirOp(0)"> {{ 0 }} </button>
+				<button type="button" class="botaoCalc" @click="clickExibirOp(',')"> , </button>
 				<button type="button" class="botaoCalc" @click="operacao()"> = </button>
 			</div>
 		</div>
@@ -32,12 +32,14 @@ export default ({
 	data() {
 		return {
 			valores: '',
-			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '/', '*']
+			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+			sinais: ['+', '-', '/', '*'],
+			color: ''
 		}
 	},
 	mounted() {
 		this.ouvir()
-
+		this.impedirSinalRep()
 	},
 	methods: {
 		apagarTudo() {
@@ -49,16 +51,18 @@ export default ({
 		// Ouvir teclado
 
 		ouvir() {
-			const novo = (e) => {
-				const valor = this.valoresOuvir.find(value => value == e.key)
+			const verificacao = (e) => {
+				let valor = (this.valoresOuvir.find(value => value == e.key) || this.sinais.find(value => value == e.key))
 				if (valor) {
-					this.valores = valor
-					console.log(this.valores)
+					this.valores = this.valores + valor
+				}
+				if (e.key == 'Backspace') {
+					this.apagar()
 				}
 			}
 			document.addEventListener("keydown", function (e) {
-				novo(e)
-			})
+				verificacao(e)
+			})	
 		},
 
 		// operacao() {
@@ -67,11 +71,19 @@ export default ({
 		clickExibirNum(number) {
 			this.valores = this.valores + number
 		},
-		clickExibir(value) {
+		clickExibirOp(value) {
 			this.valores = this.valores + value
 		},
-		// impedirSinalRep(){
-		// },
+		impedirSinalRep(){
+			// eslint-disable-next-line no-debugger
+			// debugger
+			this.valores = '12+'
+			const ultimoC = this.valores.substring(this.valores.length -1, this.valores.length)
+			console.log(ultimoC, 'pra júlia não se iludir')
+			if (ultimoC) { // vai só comparar com o "sinais"
+				console.log('teste')
+			}
+		},
 	}
 })
 </script>
@@ -94,7 +106,7 @@ export default ({
 
 .calculadora {
 	min-width: 300px;
-	max-width: 400px;
+	max-width: 300px;
 	background: #eee;
 	position: absolute;
 	top: 50%;
