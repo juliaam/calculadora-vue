@@ -33,13 +33,12 @@ export default ({
 		return {
 			valores: '',
 			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-			sinais: ['+', '-', '/', '*'],
+			sinais: ['+', '-', '/', '*', ','],
 			color: ''
 		}
 	},
 	mounted() {
 		this.ouvir()
-		this.impedirSinalRep()
 	},
 	methods: {
 		apagarTudo() {
@@ -48,8 +47,8 @@ export default ({
 		apagar() {
 			this.valores = this.valores.toString().split('').slice(0, -1).join('')
 		},
-		// Ouvir teclado
 
+		// Ouvir teclado
 		ouvir() {
 			const verificacao = (e) => {
 				let valor = (this.valoresOuvir.find(value => value == e.key) || this.sinais.find(value => value == e.key))
@@ -62,7 +61,7 @@ export default ({
 			}
 			document.addEventListener("keydown", function (e) {
 				verificacao(e)
-			})	
+			})
 		},
 
 		// operacao() {
@@ -74,14 +73,12 @@ export default ({
 		clickExibirOp(value) {
 			this.valores = this.valores + value
 		},
-		impedirSinalRep(){
-			// eslint-disable-next-line no-debugger
-			// debugger
-			this.valores = '12+'
-			const ultimoC = this.valores.substring(this.valores.length -1, this.valores.length)
-			console.log(ultimoC, 'pra júlia não se iludir')
-			if (ultimoC) { // vai só comparar com o "sinais"
-				console.log('teste')
+		impedirSinalRep() {
+			const ultimoC = this.valores.substring(this.valores.length - 1, this.valores.length)
+			const sinal = this.sinais.filter(sinal => sinal === ultimoC)
+			const repeticao = this.valores.includes(sinal[0])
+			if (repeticao) {
+				this.apagar()
 			}
 		},
 	}
