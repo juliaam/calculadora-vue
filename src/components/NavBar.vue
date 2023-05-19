@@ -1,7 +1,7 @@
 <template>
 	<div id="navbar">
 		<nav> 
-			<img :src="logo" :alt="alt" id="logo">
+			<img :alt="alt" id="logo">
 		</nav>
 	</div>
 </template>
@@ -10,7 +10,13 @@
 
 export default ({
 	name: "NavBar",
-	props: ["logo", "alt"]
+	data() {
+    return {
+	src: "", // falta o :src com o link da logo em <img 
+    alt: "Calculadora Vue"
+    }
+  },
+
 })
 </script>
 

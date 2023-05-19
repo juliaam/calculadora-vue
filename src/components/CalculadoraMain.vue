@@ -30,15 +30,21 @@
 export default ({
 	name: "CalculadoraMain",
 	data() {
-		return {
+		return { 
 			valores: '',
 			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 			sinais: ['+', '-', '/', '*', ','],
 			color: ''
 		}
 	},
+	// watch: {
+	// 	'valores'(){
+	// 		this.impedirSinalRep()
+	// 	}
+	// },
 	mounted() {
-		this.ouvir()
+		this.ouvir(),
+			this.impedirSinalRep()
 	},
 	methods: {
 		apagarTudo() {
@@ -52,6 +58,9 @@ export default ({
 		ouvir() {
 			const verificacao = (e) => {
 				let valor = (this.valoresOuvir.find(value => value == e.key) || this.sinais.find(value => value == e.key))
+				if (this.sinais.some(x => x === e.key)) {
+					this.impedirSinalRep()
+				}
 				if (valor) {
 					this.valores = this.valores + valor
 				}
@@ -61,23 +70,26 @@ export default ({
 			}
 			document.addEventListener("keydown", function (e) {
 				verificacao(e)
+
 			})
 		},
 
-		// operacao() {
+		// operacao() { fazer a soma com a função eval()
 		// 	// const array = this.valores.split('')
 		// },
 		clickExibirNum(number) {
 			this.valores = this.valores + number
 		},
 		clickExibirOp(value) {
+			if (this.sinais.some(x => x === value)) {
+				this.impedirSinalRep()
+			}
 			this.valores = this.valores + value
 		},
 		impedirSinalRep() {
 			const ultimoC = this.valores.substring(this.valores.length - 1, this.valores.length)
 			const sinal = this.sinais.filter(sinal => sinal === ultimoC)
-			const repeticao = this.valores.includes(sinal[0])
-			if (repeticao) {
+			if (this.valores.includes(sinal[0])) {
 				this.apagar()
 			}
 		},
