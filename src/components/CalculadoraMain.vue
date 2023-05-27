@@ -17,7 +17,7 @@
 					{{ number }} </button>
 				<button type="button" class="botaoCalc" @click="clickExibirOp('/')"> / </button>
 				<button type="button" class="botaoCalc span-3" @click="clickExibirOp(0)"> {{ 0 }} </button>
-				<button type="button" class="botaoCalc" @click="clickExibirOp(',')"> , </button>
+				<button type="button" class="botaoCalc" @click="clickExibirOp('.')"> . </button>
 				<button type="button" class="botaoCalc" @click="operacao()"> = </button>
 			</div>
 		</div>
@@ -33,13 +33,13 @@ export default ({
 		return {
 			valores: '',
 			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-			sinais: ['+', '-', '/', '*', ','],
-			color: ''
+			sinais: ['+', '-', '/', '*', '.'],
+			novoValue: '',
 		}
 	},
 	mounted() {
 		this.ouvir(),
-			this.impedirSinalRep()
+		this.impedirSinalRep()
 	},
 	methods: {
 		apagarTudo() {
@@ -57,27 +57,24 @@ export default ({
 					this.impedirSinalRep()
 				}
 				if (valor) {
-					console.log(this.valores, 'valor') // provável de aqui ser o problema 
 					this.valores = this.valores + valor
 				}
 				if (e.key == 'Backspace') {
 					this.apagar()
 				}
-				if (e.key == 'Enter') {
-					this.operacao() // tá errado tem que consertar
-				}
-
+				if (e.key == 'Enter'
+				) {
+					this.operacao()
+				}	
 			}
 			document.addEventListener("keydown", function (e) {
 				verificacao(e)
 
 			})
 		},
-
-		// operacao() { // fazer a soma com a função eval()
-		// 	const soma = eval(this.valores)
-		// 	this.valores = soma
-		// },
+		operacao() { // fazer a soma com a função eval()
+			this.valores = eval(this.valores)
+		},
 		clickExibirNum(number) {
 			this.valores = this.valores + number
 		},
