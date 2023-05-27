@@ -30,18 +30,13 @@
 export default ({
 	name: "CalculadoraMain",
 	data() {
-		return { 
+		return {
 			valores: '',
 			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 			sinais: ['+', '-', '/', '*', ','],
 			color: ''
 		}
 	},
-	// watch: {
-	// 	'valores'(){
-	// 		this.impedirSinalRep()
-	// 	}
-	// },
 	mounted() {
 		this.ouvir(),
 			this.impedirSinalRep()
@@ -62,11 +57,16 @@ export default ({
 					this.impedirSinalRep()
 				}
 				if (valor) {
+					console.log(this.valores, 'valor') // provável de aqui ser o problema 
 					this.valores = this.valores + valor
 				}
 				if (e.key == 'Backspace') {
 					this.apagar()
 				}
+				if (e.key == 'Enter') {
+					this.operacao() // tá errado tem que consertar
+				}
+
 			}
 			document.addEventListener("keydown", function (e) {
 				verificacao(e)
@@ -74,8 +74,9 @@ export default ({
 			})
 		},
 
-		// operacao() { fazer a soma com a função eval()
-		// 	// const array = this.valores.split('')
+		// operacao() { // fazer a soma com a função eval()
+		// 	const soma = eval(this.valores)
+		// 	this.valores = soma
 		// },
 		clickExibirNum(number) {
 			this.valores = this.valores + number
