@@ -1,9 +1,6 @@
-aqui vai ficar o que vai aparecer em todas as telas, este lugar é soberano!!
-
 <template>
   <NavBar />
-  <DashBoard />
-  <CalculadoraMain />
+    <CalculadoraMain />
 </template>
 
 <script>
@@ -22,6 +19,7 @@ export default {
 </script>
 
 <style>
+
 body {
   background-color: aquamarine;
   font-family: 'Courier New', Courier, monospace;

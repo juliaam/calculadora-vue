@@ -1,9 +1,16 @@
 <template>
-	<div id="navbar">
-		<nav> 
-			<img :alt="alt" id="logo">
-		</nav>
-	</div>
+	<!-- <div id="navbar"> -->
+				<ul>
+					<li>
+						<img src="../icons/logo.png">
+					</li>
+					<li>
+						<span>
+							Calculadora Vue
+						</span>
+					</li>
+				</ul>
+	<!-- </div> -->
 </template>
 
 <script>
@@ -11,23 +18,36 @@
 export default ({
 	name: "NavBar",
 	data() {
-    return {
-	src: "", // falta o :src com o link da logo em <img 
-    alt: "Calculadora Vue"
-    }
-  },
+		return {
+		}
+	},
 
 })
 </script>
 
 <style scoped>
-	#navbar {
-		background-color: #161515;
-		color:aliceblue;
-		text-align: center;
-		position: flex;
-		padding: 10px;
-		font-size: large;
-	}
-	
+
+li {
+	float: center;
+}
+li span {
+	display: block;
+	font-family: 'Lucida Console';
+	margin-left: 5px;
+}
+
+ul {
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	overflow: hidden;
+	list-style-type: none;
+	background-color: #33363a;
+	color: aliceblue;
+	text-align: center;
+	margin: 0;
+	font-size: large;
+}
 </style>

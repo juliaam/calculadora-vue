@@ -34,7 +34,6 @@ export default ({
 			valores: '',
 			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 			sinais: ['+', '-', '/', '*', '.'],
-			novoValue: '',
 		}
 	},
 	mounted() {
@@ -52,28 +51,26 @@ export default ({
 		// Ouvir teclado
 		ouvir() {
 			const verificacao = (e) => {
-				let valor = (this.valoresOuvir.find(value => value == e.key) || this.sinais.find(value => value == e.key))
+				let valor = this.sinais.find(value => value == e.key) || this.valoresOuvir.find(value => value == Number(e.key))
 				if (this.sinais.some(x => x === e.key)) {
 					this.impedirSinalRep()
 				}
-				if (valor) {
+				if (valor || valor == 0 ) {
 					this.valores = this.valores + valor
 				}
 				if (e.key == 'Backspace') {
 					this.apagar()
 				}
-				if (e.key == 'Enter'
-				) {
+				if (e.key == 'Enter') {
 					this.operacao()
 				}	
 			}
 			document.addEventListener("keydown", function (e) {
 				verificacao(e)
-
 			})
 		},
 		operacao() { // fazer a soma com a função eval()
-			this.valores = eval(this.valores)
+				this.valores = String(eval(this.valores))
 		},
 		clickExibirNum(number) {
 			this.valores = this.valores + number
@@ -97,10 +94,13 @@ export default ({
 
 <style scoped>
 .container {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 }
-
 * {
 	box-sizing: border-box;
 }
@@ -112,13 +112,8 @@ export default ({
 }
 
 .calculadora {
-	min-width: 300px;
-	max-width: 300px;
+	width: 300px;
 	background: #eee;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 }
 
 .span-2 {
@@ -128,6 +123,7 @@ export default ({
 .placeholder {
 	width: 100%;
 	height: 100px;
+	max-width: 100%;
 	background: #33363a;
 	border-bottom-color: black;
 	border-bottom-width: 10px;
