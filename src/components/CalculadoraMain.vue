@@ -18,7 +18,7 @@
 				<button type="button" class="botaoCalc" @click="clickExibirOp('/')"> / </button>
 				<button type="button" class="botaoCalc span-3" @click="clickExibirOp(0)"> {{ 0 }} </button>
 				<button type="button" class="botaoCalc" @click="clickExibirOp('.')"> . </button>
-				<button type="button" class="botaoCalc" @click="operacao()"> = </button>
+				<button type="button" class="botaoCalc orange" @click="operacao()"> = </button>
 			</div>
 		</div>
 	</div>
@@ -34,6 +34,13 @@ export default ({
 			valores: '',
 			valoresOuvir: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 			sinais: ['+', '-', '/', '*', '.'],
+		}
+	},
+	watch: {
+		valores() {
+			if(this.valores.length > 12) {
+				this.apagar()
+			}
 		}
 	},
 	mounted() {
@@ -57,6 +64,7 @@ export default ({
 				}
 				if (valor || valor == 0 ) {
 					this.valores = this.valores + valor
+					console.log(this.valores.length)
 				}
 				if (e.key == 'Backspace') {
 					this.apagar()
@@ -94,7 +102,7 @@ export default ({
 
 <style scoped>
 .container {
-	width: 100%;
+	width: 104%;
 	height: 100vh;
 	display: flex;
 	flex-direction: row;
